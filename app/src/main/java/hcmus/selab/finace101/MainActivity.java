@@ -57,11 +57,9 @@ public class MainActivity extends AppCompatActivity {
         View edt_current_money = inflater.inflate(R.layout.edit_current_money, null);
         final EditText new_curr_money = (EditText) edt_current_money.findViewById(R.id.edt_current_money);
 
-        LayoutInflater inflater2 = LayoutInflater.from(this);
-        View curr_money_view = inflater2.inflate(R.layout.fragment_wallet, null);
-        final TextView curr_money_text = (TextView) curr_money_view.findViewById(R.id.current_money);
-        final int curr_money = ExtractNumber.main(curr_money_text.getText().toString());
-        Log.d("curr_money", String.valueOf(curr_money_saved));
+        // get the current money
+        final int curr_money = curr_money_saved;
+
 
         new AlertDialog.Builder(this)
                 .setView(edt_current_money)
@@ -109,16 +107,12 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("I know you are there", "The new value is smaller " + String.valueOf(record));
                             }
                         }
-
-                        // get the new current money that users input
-                        // the current error: cannot save the textView's android:text permanent
-
                         Log.d("@@@@@@@@@", money);
 
                     }
                 })
                 .show();
 
-        Log.d("After update", curr_money_text.getText().toString());
+//        Log.d("After update", curr_money_text.getText().toString());
     }
 }
