@@ -52,14 +52,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btn_curr_money_click(View view) {
-        LayoutInflater inflater = LayoutInflater.from(this);
         // inflate the layout and find the EditText that used to edit the current money
+        LayoutInflater inflater = LayoutInflater.from(this);
         View edt_current_money = inflater.inflate(R.layout.edit_current_money, null);
         final EditText new_curr_money = (EditText) edt_current_money.findViewById(R.id.edt_current_money);
 
         // get the current money
         final int curr_money = curr_money_saved;
-
 
         new AlertDialog.Builder(this)
                 .setView(edt_current_money)
