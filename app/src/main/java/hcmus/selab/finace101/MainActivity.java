@@ -111,7 +111,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
-
-//        Log.d("After update", curr_money_text.getText().toString());
     }
 }
