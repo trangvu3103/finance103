@@ -1,8 +1,7 @@
 package hcmus.selab.finace101;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,25 +9,24 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.DialogCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.zip.Inflater;
+import java.util.ArrayList;
 
-import hcmus.selab.finace101.support.ExtractNumber;
+import hcmus.selab.finace101.support.RSSFeedActivity;
 import hcmus.selab.finace101.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
     int curr_money_saved = 0;
+    ArrayList<String> rssLinks = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +47,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        rssLinks.add("https://tuoitre.vn/rss/kinh-doanh.rss");
+        rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
+        rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
+
     }
+
+    //test rss
+    public void onclick_rss(View view) {
+        switch (view.getId()) {
+            case R.id.tuoitre_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(0)));
+                break;
+
+            case R.id.theguardian_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(1)));
+                break;
+
+            case R.id.cnbc_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(2)));
+                break;
+        }
+    }
+
 
     public void btn_curr_money_click(View view) {
         // inflate the layout and find the EditText that used to edit the current money
@@ -112,4 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
     }
+
+
+
 }
