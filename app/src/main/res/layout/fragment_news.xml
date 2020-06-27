@@ -21,4 +21,42 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
+<!--    test rss-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/tuoitre_feed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vietname finance from tuoitrenews"
+                android:onClick="onclick_rss"/>
+
+            <Button
+                android:id="@+id/theguardian_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="global finance from the guardian"
+                android:onClick="onclick_rss"/>
+            <Button
+                android:id="@+id/cnbc_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="global finance from the cnn"
+                android:onClick="onclick_rss"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

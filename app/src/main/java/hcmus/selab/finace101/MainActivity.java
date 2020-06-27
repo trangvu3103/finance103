@@ -1,8 +1,7 @@
 package hcmus.selab.finace101;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -10,25 +9,24 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.DialogCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.zip.Inflater;
+import java.util.ArrayList;
 
-import hcmus.selab.finace101.support.ExtractNumber;
+import hcmus.selab.finace101.support.RSSFeedActivity;
 import hcmus.selab.finace101.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
     int curr_money_saved = 0;
+    ArrayList<String> rssLinks = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +47,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        rssLinks.add("https://tuoitre.vn/rss/kinh-doanh.rss");
+        rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
+        rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
+
     }
 
+    //test rss
+    public void onclick_rss(View view) {
+        switch (view.getId()) {
+            case R.id.tuoitre_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(0)));
+                break;
+
+            case R.id.theguardian_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(1)));
+                break;
+
+            case R.id.cnbc_feed:
+                startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(2)));
+                break;
+        }
+    }
+
+
     public void btn_curr_money_click(View view) {
-        LayoutInflater inflater = LayoutInflater.from(this);
         // inflate the layout and find the EditText that used to edit the current money
+        LayoutInflater inflater = LayoutInflater.from(this);
         View edt_current_money = inflater.inflate(R.layout.edit_current_money, null);
         final EditText new_curr_money = (EditText) edt_current_money.findViewById(R.id.edt_current_money);
 
-        LayoutInflater inflater2 = LayoutInflater.from(this);
-        View curr_money_view = inflater2.inflate(R.layout.fragment_wallet, null);
-        final TextView curr_money_text = (TextView) curr_money_view.findViewById(R.id.current_money);
-        final int curr_money = ExtractNumber.main(curr_money_text.getText().toString());
-        Log.d("curr_money", String.valueOf(curr_money_saved));
+        // get the current money
+        final int curr_money = curr_money_saved;
 
         new AlertDialog.Builder(this)
                 .setView(edt_current_money)
@@ -109,16 +126,13 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("I know you are there", "The new value is smaller " + String.valueOf(record));
                             }
                         }
-
-                        // get the new current money that users input
-                        // the current error: cannot save the textView's android:text permanent
-
                         Log.d("@@@@@@@@@", money);
 
                     }
                 })
                 .show();
-
-        Log.d("After update", curr_money_text.getText().toString());
     }
+
+
+
 }
