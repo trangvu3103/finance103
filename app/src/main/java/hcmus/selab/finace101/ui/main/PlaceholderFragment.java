@@ -17,10 +17,6 @@ import hcmus.selab.finace101.R;
  */
 public class PlaceholderFragment extends Fragment{
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String AMOUNT = "moneyAmount";
-    private static final String TITLE = "moneyAmount";
-    private static final String CAT = "moneyAmount";
 
     addRecordListener callback;
 
