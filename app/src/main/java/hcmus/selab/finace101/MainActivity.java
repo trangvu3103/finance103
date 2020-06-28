@@ -5,16 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-
-import androidx.core.app.DialogCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,26 +23,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import android.widget.Button;
-
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.util.LinkedList;
-import java.util.zip.Inflater;
 
-import hcmus.selab.finace101.support.ExtractNumber;
 import hcmus.selab.finace101.ui.main.PlaceholderFragment;
 
 import java.util.ArrayList;
 
 import hcmus.selab.finace101.support.RSSFeedActivity;
 
-import hcmus.selab.finace101.ui.main.RecordRecyclerViewFragment;
 import hcmus.selab.finace101.ui.main.SectionsPagerAdapter;
 import hcmus.selab.finace101.ui.main.recordRecyclerView;
 
@@ -61,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     LinkedList<String> mRecordAmount_list = new LinkedList<String>();
     LinkedList<String> mRecordTitle_list = new LinkedList<String>();
     LinkedList<String> mRecordCat_list = new LinkedList<String>();
-    String Moneyy,Titles,Cats;
 
 
     @Override
@@ -114,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
     public void AddRecord(final View view){
         LayoutInflater inflater = LayoutInflater.from(this);
-//        Log.d("TAG", "onCreate: "+recordRecyclerView.getAdapter().toString());
         View addRecordDlog = inflater.inflate(R.layout.add_record_dialog, null);
         final EditText record_money_amount = (EditText) addRecordDlog.findViewById(R.id.add_amount);
         final EditText record_title = (EditText) addRecordDlog.findViewById(R.id.add_title);
@@ -146,9 +133,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         LayoutInflater inflater2 = LayoutInflater.from(this);
         final View curr_money_view = inflater2.inflate(R.layout.fragment_wallet, null);
         TextView curr_money_text = (TextView) curr_money_view.findViewById(R.id.current_money);
-//        final int curr_money = ExtractNumber.main(curr_money_text.getText().toString());
-        // get the current money
-//        final int curr_money = curr_money_saved;
 
         new AlertDialog.Builder(this)
                 .setView(addRecordDlog)
@@ -164,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // check if user inputted new value. If not set text the new_curr_money to 0
-                        Log.d("TAG", "onClick: dasdsd");
                         String change = record_money_amount.getText().toString();
                         String title ="";
                         String cat = null;
@@ -198,12 +181,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
                         addRecord(String.valueOf(i) + " vnd",title,cat);
 
-//                        updateFrag();
-
-//
-                        // get the new current money that users input
-                        // the current error: cannot save the textView's android:text permanent
-
 
                     }
                 })
@@ -235,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                         catch (NumberFormatException e){
                             dialog.dismiss();
                             new_curr_money.setText("0");
-                            Log.d("catch the error", "I saw you!");
                         }
 
                         // create a new edited_money variable with int type
@@ -257,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                                 record = edited_money - abs(curr_money);
 
                                 // add the record value to list of record with tittle = "unknow"
-                                Log.d("TAG", "onClick: " + String.valueOf(record));
                                 addRecord(String.valueOf(record) + " vnd","Unknown","Income");
 
 
@@ -267,46 +242,19 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                                 record = abs(curr_money) - edited_money;
 
                                 // add the record value to list of record with tittle = "unknow"
-                                Log.d("TAG", "onClick: " + String.valueOf(record));
                                 addRecord(String.valueOf(record) + " vnd","Unknown","Expand");
                             }
                         }
-                        Log.d("@@@@@@@@@", money);
 
                     }
                 })
                 .show();
     }
 
-
-
-//    @Override
-//    public void addRecord(String moneyAmount, String mtitle, String mcat) {
-////        LinkedList<String> amount_list = new LinkedList<>(), title_list = new LinkedList<>(), cat_list = new LinkedList<>();
-////        amount_list.addLast(moneyAmount);
-////        title_list.addLast(title);
-////        cat_list.addLast(cat);
-//
-//        placeholderFragment.setData(moneyAmount,mtitle,mcat);
-//
-//    }
-
-//    public interface addRecordListener {
-//        public void addRecord(String moneyAmount, String title, String cat);
-//    }
-
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        // Save the state of the fragment (true=open, false=closed).
-//        savedInstanceState.putBoolean(STATE_FRAGMENT, isFragmentDisplayed);
-//        savedInstanceState.putInt(STATE_CHOICE, mRadioButtonChoice);
-//        super.onSaveInstanceState(savedInstanceState);
-//    }
-
-
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
-        if (fragment instanceof RecordRecyclerViewFragment){
+        if (fragment instanceof PlaceholderFragment){
             PlaceholderFragment recyclerViewFragment = (PlaceholderFragment) fragment;
             recyclerViewFragment.setFragListener(this);
         }
@@ -324,19 +272,4 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
 
     }
-
-//    @Override
-//    public void addRecord(RecyclerView recyclerView, LinkedList<String> mMon, LinkedList<String> mTit, LinkedList<String> mCat) {
-//        RecyclerView rec_view = recyclerView;
-//        Log.d("TAG", "addRecord: "+recyclerView.getAdapter().toString());
-//
-//        int wordListSize = mMon.size();
-//
-//        mMon.addLast(Moneyy);
-//        mTit.addLast(Titles);
-//        mCat.addLast(Cats);
-//
-//        rec_view.getAdapter().notifyDataSetChanged();
-//        rec_view.smoothScrollToPosition(wordListSize);
-//    }
 }

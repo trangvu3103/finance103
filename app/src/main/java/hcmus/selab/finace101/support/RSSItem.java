@@ -1,6 +1,5 @@
 package hcmus.selab.finace101.support;
 
-import android.util.Log;
 
 public class RSSItem {
     public String title;

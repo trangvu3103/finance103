@@ -1,7 +1,6 @@
 package hcmus.selab.finace101.ui.main;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ public class recordRecyclerView extends RecyclerView.Adapter<recordRecyclerView.
 
         public recordRecyclerView_Holder(View mItemView, recordRecyclerView recordRecyclerViewAdapter) {
             super(mItemView);
-            Log.d("TAG", "recordRecyclerView_Holder: test");
             this.record_amount = mItemView.findViewById(R.id.record_amount);
             this.record_title = mItemView.findViewById(R.id.record_title);
             this.record_icon = mItemView.findViewById(R.id.record_icon);
@@ -48,7 +46,6 @@ public class recordRecyclerView extends RecyclerView.Adapter<recordRecyclerView.
     }
 
     public recordRecyclerView(Context context, LinkedList<String> mRecord_amount, LinkedList<String> mRecord_title, LinkedList<String> mRecord_cat) {
-        Log.d("TAG", "recordRecyclerView: ");
         this.list_mRecord_amount = mRecord_amount;
         this.list_mRecord_title = mRecord_title;
         this.list_mRecord_cat = mRecord_cat;
