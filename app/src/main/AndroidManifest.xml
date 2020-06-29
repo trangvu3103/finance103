@@ -24,11 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".support.RSSFeedActivity"/>
+        <activity android:name=".support.RSSFeedActivity"
+            android:theme="@style/Feed"/>
         <activity android:name=".support.BrowserActivity"
             android:hardwareAccelerated="false"
             android:theme="@style/Browser"
             />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
