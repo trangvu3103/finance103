@@ -14,9 +14,6 @@ import hcmus.selab.finace101.R;
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment2 extends Fragment {
-
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,

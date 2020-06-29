@@ -64,7 +64,6 @@ public class recordRecyclerView extends RecyclerView.Adapter<recordRecyclerView.
     public recordRecyclerView_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mItemView = mInflater.inflate(R.layout.record, parent,false);
         return new recordRecyclerView_Holder(mItemView,this);
-//        return null;
     }
 
     @Override
