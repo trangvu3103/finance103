@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
         new AlertDialog.Builder(this)
                 .setView(addRecordDlog)
-                .setTitle("Add Record")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -263,9 +262,9 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     public void addRecord(String amount, String Tit, String cat){
 
         int wordListSize = mRecordAmount_list.size();
-        this.mRecordAmount_list.addLast(amount);
-        this.mRecordTitle_list.addLast(Tit);
-        this.mRecordCat_list.addLast(cat);
+        this.mRecordAmount_list.addFirst(amount);
+        this.mRecordTitle_list.addFirst(Tit);
+        this.mRecordCat_list.addFirst(cat);
 
         this.recordRecyclerView.getAdapter().notifyItemInserted(wordListSize);
         this.recordRecyclerView.smoothScrollToPosition(wordListSize);
