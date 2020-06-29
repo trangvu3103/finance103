@@ -77,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sectionsPagerAdapter.getItem(0);
-                viewPager.setAdapter(sectionsPagerAdapter);
-                tabs.setupWithViewPager(viewPager);
                 AddRecord(view);
             }
         });
