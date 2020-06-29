@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
     public void AddRecord(final View view){
         LayoutInflater inflater = LayoutInflater.from(this);
-        View addRecordDlog = inflater.inflate(R.layout.add_record_dialog, null);
+        final View addRecordDlog = inflater.inflate(R.layout.add_record_dialog, null);
         final EditText record_money_amount = (EditText) addRecordDlog.findViewById(R.id.add_amount);
         final EditText record_title = (EditText) addRecordDlog.findViewById(R.id.add_title);
         final String[] record_cat = new String[1];
@@ -111,7 +111,14 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
-                record_cat[0] = parentView.getItemAtPosition(position).toString();
+                try {
+                    record_cat[0] = parentView.getItemAtPosition(position).toString();
+
+                }catch (Exception e){
+                    Toast.makeText(addRecordDlog.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
+                    Log.wtf("AddRecord_Error:", e.getMessage());
+                    return;
+                }
             }
 
             @Override
@@ -154,16 +161,20 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
                         int Result;
                         int i = 0;
-
+                        title = record_title.getText().toString();
+                        if (title.isEmpty()){
+                            Toast.makeText(curr_money_view.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         try {
-                            title = record_title.getText().toString();
                             i = Integer.parseInt(change);
                             cat = record_cat[0].toString();
                         }
-                        catch (NumberFormatException e){
+                        catch (Exception e){
                             dialog.dismiss();
                             Toast.makeText(curr_money_view.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
                             Log.wtf("AddRecord_Error:", e.getMessage());
+                            return;
                         }
 
                         if(cat.equalsIgnoreCase("Expand")){
@@ -263,11 +274,11 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     public void addRecord(String amount, String Tit, String cat){
 
         int wordListSize = mRecordAmount_list.size();
-        this.mRecordAmount_list.addLast(amount);
-        this.mRecordTitle_list.addLast(Tit);
-        this.mRecordCat_list.addLast(cat);
+        this.mRecordAmount_list.addFirst(amount);
+        this.mRecordTitle_list.addFirst(Tit);
+        this.mRecordCat_list.addFirst(cat);
 
-        this.recordRecyclerView.getAdapter().notifyItemInserted(wordListSize);
+        this.recordRecyclerView.getAdapter().notifyItemInserted(0);
         this.recordRecyclerView.smoothScrollToPosition(wordListSize);
 
 
