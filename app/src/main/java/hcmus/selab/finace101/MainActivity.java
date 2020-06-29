@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
         new AlertDialog.Builder(this)
                 .setView(addRecordDlog)
-                .setTitle("Add Record")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
