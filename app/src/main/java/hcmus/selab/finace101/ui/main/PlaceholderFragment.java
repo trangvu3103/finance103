@@ -16,8 +16,6 @@ import hcmus.selab.finace101.R;
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment{
-
-
     addRecordListener callback;
 
     static RecyclerView mRecyclerView;
@@ -57,8 +55,4 @@ public class PlaceholderFragment extends Fragment{
             throw new RuntimeException(context.toString()+"must implement addRecordListener");
         }
     }
-
-
-
-
 }

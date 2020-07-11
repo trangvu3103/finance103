@@ -16,7 +16,8 @@
         android:text="Add your spending record"
         android:textSize="20dp"
         android:layout_marginBottom="10dp"
-        android:textColor="@color/colorText"/>
+        android:textColor="@color/colorText"
+        android:fontFamily="@font/hind_vadodara"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -25,7 +26,8 @@
         android:hint="Add Money Amount"
         android:inputType="numberDecimal"
         android:textSize="14dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/hind_vadodara_light"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -33,12 +35,14 @@
         android:id="@+id/add_title"
         android:hint="Add Title"
         android:textSize="14dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/hind_vadodara_light"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/add_cat_spinner"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        android:fontFamily="@font/hind_vadodara_light"/>
 
 </LinearLayout>

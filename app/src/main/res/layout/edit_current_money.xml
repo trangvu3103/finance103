@@ -16,14 +16,16 @@
         android:text="Edit your current money"
         android:textSize="20dp"
         android:layout_marginBottom="5dp"
-        android:textColor="@color/colorText"/>
+        android:textColor="@color/colorText"
+        android:fontFamily="@font/hind_vadodara"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text='New change will be recorded later with "unknow" title'
         android:textSize="14dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/hind_vadodara_light"/>
 
     <EditText
         android:id="@+id/edt_current_money"
@@ -33,6 +35,6 @@
         android:inputType="numberDecimal"
         tools:ignore="MissingConstraints"
         android:textSize="14dp"
-        />
+        android:fontFamily="@font/hind_vadodara_light"/>
 
 </LinearLayout>
