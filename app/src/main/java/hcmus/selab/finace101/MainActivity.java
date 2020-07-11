@@ -275,15 +275,12 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     }
 
     public void addRecord(String amount, String Tit, String cat){
-
-        int wordListSize = mRecordAmount_list.size();
+        //Add item to list
         this.mRecordAmount_list.addFirst(amount);
         this.mRecordTitle_list.addFirst(Tit);
         this.mRecordCat_list.addFirst(cat);
-
+        //Notify the recyclerView to change data
         this.recordRecyclerView.getAdapter().notifyItemInserted(0);
-        this.recordRecyclerView.smoothScrollToPosition(wordListSize);
-
 
     }
 }
