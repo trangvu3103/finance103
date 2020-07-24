@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.PlaceholderFragment"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    android:background="@color/colorLightBG">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_current_money"
@@ -31,8 +32,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your money"
-                    android:textSize="16dp"
-
+                    android:textSize="18dp"
+                    android:textColor="@color/colorText"
+                    android:textAllCaps="true"
+                    android:fontFamily="@font/hind_vadodara"
                     />
                 <TextView
                     android:id="@+id/current_money"
@@ -42,9 +45,9 @@
                     android:text="0 vnd"
                     android:textSize="20dp"
                     android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
+                    android:textColor="@color/colorText"
+                    android:fontFamily="@font/hind_vadodara"
                     />
-
             </LinearLayout>
 
             <!-- Buttons -->
@@ -66,12 +69,34 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_record"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/card_current_money"
-        android:layout_marginTop="8dp"
+        android:layout_margin="8dp">
 
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your wallet records"
+                android:textSize="18dp"
+                android:textColor="@color/colorText"
+                android:textAllCaps="true"
+                android:fontFamily="@font/hind_vadodara"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/card_current_money"
+                android:layout_marginTop="8dp"
+                android:layout_margin="5dp"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

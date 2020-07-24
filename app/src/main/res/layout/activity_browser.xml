@@ -5,25 +5,30 @@
     tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/AppTheme.NoActionBar">
+    style="@style/AppTheme.NoActionBar"
+    android:background="@color/colorLightBG">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:id="@+id/app_bar"
-        android:background="@color/colorDarkBG">
+        android:background="@color/colorDarkBG"
+        tools:ignore="MissingConstraints">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/abril_fatface"
             android:gravity="center"
             android:minHeight="?actionBarSize"
             android:padding="@dimen/appbar_padding"
-            android:text="Finance101"
+            android:textSize="20sp"
+            android:text="Content"
             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:textColor="@color/colorSubItem"
-            android:layout_gravity="center"/>
+            android:textColor="@color/colorSubItem" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout

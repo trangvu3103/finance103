@@ -1,7 +1,5 @@
 package hcmus.selab.finace101.support;
 
-import android.util.Log;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
