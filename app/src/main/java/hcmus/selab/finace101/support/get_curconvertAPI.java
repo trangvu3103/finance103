@@ -25,7 +25,7 @@ public class get_curconvertAPI {
         try{
             Uri builtURI = Uri.parse("https://api.currencyscoop.com/v1/convert").buildUpon()
 
-                    .appendQueryParameter("api_key", "aa788b84201d83279d0c520990c1162d92e0df38e89a6513a82c13b04fb16628 ")
+                    .appendQueryParameter("api_key", "aa788b84201d83279d0c520990c1162d92e0df38e89a6513a82c13b04fb16628")
 
                     .appendQueryParameter("base", fromCur)
 
@@ -92,7 +92,7 @@ public class get_curconvertAPI {
 
 
         }catch (IOException e) {
-
+            Log.d("TAG", "getcurExchangedAmount: " + e.getMessage());
             e.printStackTrace();
 
         } finally {
@@ -120,6 +120,7 @@ public class get_curconvertAPI {
             }
 
         }
+
 
         return bookJSONString;
     }

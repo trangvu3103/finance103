@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +18,7 @@ public class moneyConverter extends AsyncTask<Void, Void, String>{
 
 //    HttpURLConnection urlConnection;
 
-    moneyConverter(String fromCur, String toCur, double curAmount){
+    public moneyConverter(String fromCur, String toCur, double curAmount){
         this.fromCur = fromCur;
         this.toCur = toCur;
         this.moneyCur = curAmount;
@@ -29,26 +31,28 @@ public class moneyConverter extends AsyncTask<Void, Void, String>{
         return teststr;
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        try{
-            JSONObject jsO = new JSONObject(s);
-//            Double cur_amount;
-//            cur_amount = Double.parseDouble(textView_cur.getText().toString()) * jsO.getJSONObject("rates").getDouble(curState);
-//            textView_cur2.setText(cur_amount.toString());
-            Log.d("TAG", "onPostExecute: "+ jsO.getJSONObject("response"));
-//            this.convertedCur = jsO.getJSONObject("rates").getDouble(curState);
+//    @Override
+//    protected void onPostExecute(String s) {
+//        super.onPostExecute(s);
+//        try{
+//            JSONObject jsO = new JSONObject(s);
+////            Double cur_amount;
+////            cur_amount = Double.parseDouble(textView_cur.getText().toString()) * jsO.getJSONObject("rates").getDouble(curState);
+////            textView_cur2.setText(cur_amount.toString());
+//            Log.d("TAG", "onPostExecute: "+ jsO.getJSONObject("response").getDouble("value"));
+////            this.convertedCur = jsO.getJSONObject("rates").getDouble(curState);
+//
+//        }catch (JSONException e){
+//            e.printStackTrace();
+//        }
+//        return;
+//    }
 
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return;
-    }
+//    public double moneyConverter(double moneyCur, String fromCur, String toCur){
+//        moneyConverter test = (moneyConverter) new moneyConverter(fromCur,toCur,moneyCur).execute();
+//
+//        return 0;
+//    }
 
-    public double moneyConverter(double moneyCur, String fromCur, String toCur){
-
-        return 0;
-    }
 }
 

@@ -160,7 +160,6 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/hind_vadodara_light"
                         android:id="@+id/convert_btn"
-                        android:onClick="currency_converter_onclick"
                         />
 
                 </LinearLayout>
