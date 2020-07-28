@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedList;
 
 import hcmus.selab.finace101.ui.main.PlaceholderFragment;
@@ -52,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     LinkedList<String> mRecordTitle_list = new LinkedList<String>();
     LinkedList<String> mRecordCat_list = new LinkedList<String>();
 
-
+    Spinner currency_spinner;
+    String curState;
     @Override
     public void getRecyclerView(RecyclerView recyclerView) {
         this.recordRecyclerView = recyclerView;
@@ -85,10 +88,11 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
         rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
 
+
     }
 
     //test rss
-    public void onclick_rss(View view) {
+    public void onclick_rss(@NotNull View view) {
         switch (view.getId()) {
             case R.id.tuoitre_feed:
                 startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(0)));
@@ -285,4 +289,44 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     }
 
 
+//    public void currency_converter_onclick(View view) {
+////        Toast.makeText(this,"EYYYY",Toast.LENGTH_SHORT).show();
+//
+//        LayoutInflater inflater2 = LayoutInflater.from(this);
+//        final View curr_money_view = inflater2.inflate(R.layout.fragment_news, null);
+//
+//        currency_spinner = (Spinner) curr_money_view.findViewById(R.id.currency_spinner);
+//
+//        Log.d("TAG", "currency_converter_onclick: "+ currency_spinner.getSelectedItem());
+//
+//        currency_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                try {
+//                    Log.d("TAG", "onItemSelected: " + position);
+//                    Log.d("TAG", "onItemSelected: " + parentView.getItemAtPosition(position).toString());
+//                    curState = parentView.getItemAtPosition(position).toString();
+//
+//                }catch (Exception e){
+//                    Toast.makeText(selectedItemView.getContext(), "Choose currency exchanged FAILED", Toast.LENGTH_LONG).show();
+//                    Log.wtf("ChooseCurState_Err:", e.getMessage());
+//                    return;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//                // your code here
+//            }
+//
+//        });
+//
+//        Log.d("TAG", "currency_converter_onclick: " + curState);
+//////        String getStrCur = cur1.getText().toString();
+//////        if (!getStrCur.equalsIgnoreCase("")){
+//////            CurrencyConvertedAsyn test = (CurrencyConvertedAsyn) new CurrencyConvertedAsyn("VND", cur2, curState).execute();
+//////        }else{
+//////            Toast.makeText(this, "Converted Failed", Toast.LENGTH_SHORT).show();
+//////        }
+//    }
 }

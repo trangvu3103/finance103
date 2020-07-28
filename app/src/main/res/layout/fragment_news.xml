@@ -129,6 +129,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/currency_spinner"
                                 android:textSize="14dp"
+                                android:paddingTop="10dp"
                                 android:fontFamily="@font/hind_vadodara_light"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -159,6 +160,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/hind_vadodara_light"
                         android:id="@+id/convert_btn"
+                        android:onClick="currency_converter_onclick"
                         />
 
                 </LinearLayout>

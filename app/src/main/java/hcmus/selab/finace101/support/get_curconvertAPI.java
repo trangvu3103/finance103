@@ -16,7 +16,7 @@ public class get_curconvertAPI {
         urlConnection = null;
     }
 
-    public String getcurExchangedAmount(String fromCur, String toCur, int money){
+    public String getcurExchangedAmount(String fromCur, String toCur, double money){
         BufferedReader reader = null;
 
         String bookJSONString = null;
