@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -58,6 +59,16 @@ public class RSSFeedActivity extends ListActivity {
                 String page_url = ((TextView) view.findViewById(R.id.page_url)).getText().toString().trim();
                 in.putExtra("url", page_url);
                 startActivity(in);
+            }
+        });
+
+        //back btn for rss activity
+        ImageView back_btn = findViewById(R.id.back_fds_btn);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }

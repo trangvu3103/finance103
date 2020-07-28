@@ -283,4 +283,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         this.recordRecyclerView.getAdapter().notifyItemInserted(0);
 
     }
+
+
 }
