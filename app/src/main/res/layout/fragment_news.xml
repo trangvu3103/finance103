@@ -8,37 +8,164 @@
     tools:context=".ui.main.PlaceholderFragment"
     android:background="@color/colorLightBG">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_margin="8dp">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/tuoitre_feed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vietname finance from tuoitrenews"
-                android:onClick="onclick_rss"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="8dp">
 
-            <Button
-                android:id="@+id/theguardian_feed"
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Check out latest finance news"
+                        android:textColor="@color/colorText"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/hind_vadodara"
+                        android:textSize="18dp"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:src="@drawable/finance_news"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:layout_marginTop="8dp"/>
+
+                    <Button
+                        android:id="@+id/tuoitre_feed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vietname finance from tuoitrenews"
+                        android:onClick="onclick_rss"
+                        android:layout_marginTop="8dp"/>
+
+                    <Button
+                        android:id="@+id/theguardian_feed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="global finance from the guardian"
+                        android:onClick="onclick_rss"/>
+                    <Button
+                        android:id="@+id/cnbc_feed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="global finance from the cnn"
+                        android:onClick="onclick_rss"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="global finance from the guardian"
-                android:onClick="onclick_rss"/>
-            <Button
-                android:id="@+id/cnbc_feed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="global finance from the cnn"
-                android:onClick="onclick_rss"/>
+                android:layout_marginTop="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Currency converter"
+                        android:textColor="@color/colorText"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/hind_vadodara"
+                        android:textSize="18dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="VND"
+                                android:fontFamily="@font/hind_vadodara_light"
+                                android:textSize="16dp"/>
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16dp"
+                                android:id="@+id/covert_input"
+                                android:inputType="numberDecimal"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="choose currency"
+                                android:textAllCaps="true"
+                                android:fontFamily="@font/hind_vadodara_light"
+                                android:textSize="16dp"/>
+                            <Spinner
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/currency_spinner"
+                                android:textSize="14dp"
+                                android:fontFamily="@font/hind_vadodara_light"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="result"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/hind_vadodara_light"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0 USD"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/hind_vadodara_light"
+                        android:textSize="16dp"
+                        android:id="@+id/convert_result"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="convert"
+                        android:layout_marginTop="8dp"
+                        android:textSize="14dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/hind_vadodara_light"
+                        android:id="@+id/convert_btn"
+                        />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
