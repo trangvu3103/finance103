@@ -33,7 +33,7 @@ public class PlaceholderFragment2 extends Fragment {
         currency_spinner = (Spinner) view.findViewById(R.id.currency_spinner);
 //        Log.d("TAG", "onCreateView: "+curConvertView.getPaddingTop());
         ArrayAdapter<String> mCurSpinnerAddapter = new ArrayAdapter<String>(this.getContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.currency_spinner_item,
                 this.getResources().getStringArray(R.array.toCur));
 
         Log.d("TAG", "onCreateView: "+this.getResources().getStringArray(R.array.toCur).length);
