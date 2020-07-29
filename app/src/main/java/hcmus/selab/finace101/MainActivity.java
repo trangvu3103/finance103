@@ -2,8 +2,19 @@ package hcmus.selab.finace101;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
+import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -32,9 +43,12 @@ import android.widget.Toast;
 
 import java.util.LinkedList;
 
+import hcmus.selab.finace101.support.fxRate.DailyFXRate;
+import hcmus.selab.finace101.support.fxRate.ForexRate;
 import hcmus.selab.finace101.ui.main.PlaceholderFragment;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import hcmus.selab.finace101.support.RSSFeedActivity;
 
@@ -52,16 +66,10 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     LinkedList<String> mRecordTitle_list = new LinkedList<String>();
     LinkedList<String> mRecordCat_list = new LinkedList<String>();
 
-
-    @Override
-    public void getRecyclerView(RecyclerView recyclerView) {
-        this.recordRecyclerView = recyclerView;
-        this.recordRecyclerView.setAdapter(new recordRecyclerView(this,mRecordAmount_list, mRecordTitle_list,mRecordCat_list));
-        this.recordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        DividerItemDecoration decor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        this.recordRecyclerView.addItemDecoration(decor);
-    }
+    // asyncTask to get fx exchange
+    ForexRate forex = new ForexRate();
+    ArrayList<DailyFXRate> dailyFXRates = new ArrayList<DailyFXRate>();
+    ArrayList<DailyFXRate> data = new ArrayList<DailyFXRate>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +93,110 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
         rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
 
+        forex.execute();
+        try {
+            dailyFXRates = forex.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+        //inflater
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
+//
+//        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
+
+//        LoadFXChart test_load = new LoadFXChart(dailyFXRates, chart);
+        data = dailyFXRates;
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View inflate = inflater.inflate(R.layout.fx_chart, null);
+
+//        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
+        CandleStickChart chart = (CandleStickChart) inflate.findViewById(R.id.fx_chart);
+
+        chart.setHighlightPerDragEnabled(true);
+        chart.setDrawBorders(true);
+        chart.setBorderColor(Color.LTGRAY);
+
+        YAxis yAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        yAxis.setDrawGridLines(true);
+        rightAxis.setDrawGridLines(true);
+        chart.requestDisallowInterceptTouchEvent(true);
+
+        XAxis xAxis = chart.getXAxis();
+
+        xAxis.setDrawGridLines(true);// disable x axis grid lines
+        xAxis.setDrawLabels(true);
+        rightAxis.setTextColor(Color.WHITE);
+        yAxis.setDrawLabels(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setAvoidFirstLastClipping(true);
+
+        Legend l = chart.getLegend();
+        l.setEnabled(true);
+
+        ArrayList<CandleEntry> candleValues = new ArrayList<>();
+
+        ArrayList<String> dateIndex = new ArrayList<>();
+        try {
+            for (int j = 0; j < 30; j++) {
+                //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
+//                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
+//                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
+//                        candleValues.add(new CandleEntry(
+//                                (float)j * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
+//                    }
+                dateIndex.add(data.get(j).getDailyDate());
+                candleValues.add(new CandleEntry(
+                        j* 1f,
+                        (float)data.get(j).getDailyHigh() * 1f,
+                        (float)data.get(j).getDailyLow() * 1f,
+                        (float)data.get(j).getDailyOpen() * 1f,
+                        (float)data.get(j).getDailyClose() * 1f));
+
+                Log.d("TAG", "loadChart: " + data.get(j).getDailyDate());
+            }
+        }catch (Exception ex){ex.printStackTrace();}
+
+        IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
+        xAxis.setValueFormatter(indexAxisValueFormatter);
+        xAxis.setLabelCount(4);
+
+        //System.out.println(candleValues.toString());
+        CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
+        set1.setColor(Color.rgb(80, 80, 80));
+        set1.setShadowColor(Color.GRAY);
+        set1.setShadowWidth(0.8f);
+        set1.setDecreasingColor(Color.RED);
+        set1.setDecreasingPaintStyle(Paint.Style.FILL);
+        set1.setIncreasingColor(Color.GREEN);
+        set1.setIncreasingPaintStyle(Paint.Style.FILL);
+        set1.setNeutralColor(Color.LTGRAY);
+        set1.setDrawValues(false);
+
+        Description description = new Description();
+//            description.setText(arrayIndexName[i]);
+
+        CandleData data = new CandleData(set1);
+        chart.setDescription(description);
+        chart.setData(data);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
+
+//        fragment_news.inflate()
+
+
     }
 
     //test rss
@@ -102,6 +214,17 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                 startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(2)));
                 break;
         }
+    }
+
+    // what is this????
+    @Override
+    public void getRecyclerView(RecyclerView recyclerView) {
+        this.recordRecyclerView = recyclerView;
+        this.recordRecyclerView.setAdapter(new recordRecyclerView(this,mRecordAmount_list, mRecordTitle_list,mRecordCat_list));
+        this.recordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        DividerItemDecoration decor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        this.recordRecyclerView.addItemDecoration(decor);
     }
 
     public void AddRecord(final View view){
@@ -202,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
     }
 
-
     public void btn_curr_money_click(View view) {
         // inflate the layout and find the EditText that used to edit the current money
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -284,5 +406,186 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
     }
 
+    //test crate fx chart
+//    public static class LoadFXChart {
+//        public static ArrayList<DailyFXRate> data;
+//        public static CandleStickChart fx_chart;
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
+//
+//        public LoadFXChart(ArrayList<DailyFXRate> data_input, CandleStickChart chart) {
+//            this.data = data_input;
+//            this.fx_chart = chart;
+//        }
+//
+//
+//        public void loadChart() {
+//            //inflater
+//
+//
+//
+//            CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
+//
+//            LoadFXChart test_load = new LoadFXChart(data, chart);
+//
+//            this.fx_chart.setHighlightPerDragEnabled(true);
+//            this.fx_chart.setDrawBorders(true);
+//            this.fx_chart.setBorderColor(Color.LTGRAY);
+//
+//            YAxis yAxis = this.fx_chart.getAxisLeft();
+//            YAxis rightAxis = this.fx_chart.getAxisRight();
+//            yAxis.setDrawGridLines(true);
+//            rightAxis.setDrawGridLines(true);
+//            this.fx_chart.requestDisallowInterceptTouchEvent(true);
+//
+//            XAxis xAxis = this.fx_chart.getXAxis();
+//
+//            xAxis.setDrawGridLines(true);// disable x axis grid lines
+//            xAxis.setDrawLabels(true);
+//            rightAxis.setTextColor(Color.WHITE);
+//            yAxis.setDrawLabels(true);
+//            xAxis.setGranularity(1f);
+//            xAxis.setGranularityEnabled(true);
+//            xAxis.setAvoidFirstLastClipping(true);
+//
+//            Legend l = this.fx_chart.getLegend();
+//            l.setEnabled(true);
+//
+//            ArrayList<CandleEntry> candleValues = new ArrayList<>();
+//
+//            ArrayList<String> dateIndex = new ArrayList<>();
+//            try {
+//                for (int j = 0; j < 30; j++) {
+//                    //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
+////                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
+////                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
+////                        candleValues.add(new CandleEntry(
+////                                (float)j * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
+////                    }
+//                    dateIndex.add(data.get(j).getDailyDate());
+//                    candleValues.add(new CandleEntry(
+//                            j* 1f,
+//                            (float)data.get(j).getDailyHigh() * 1f,
+//                            (float)data.get(j).getDailyLow() * 1f,
+//                            (float)data.get(j).getDailyOpen() * 1f,
+//                            (float)data.get(j).getDailyClose() * 1f));
+//                }
+//            }catch (Exception ex){ex.printStackTrace();}
+//
+//            IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
+//            xAxis.setValueFormatter(indexAxisValueFormatter);
+//            xAxis.setLabelCount(4);
+//
+//            //System.out.println(candleValues.toString());
+//            CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
+//            set1.setColor(Color.rgb(80, 80, 80));
+//            set1.setShadowColor(Color.GRAY);
+//            set1.setShadowWidth(0.8f);
+//            set1.setDecreasingColor(Color.RED);
+//            set1.setDecreasingPaintStyle(Paint.Style.FILL);
+//            set1.setIncreasingColor(Color.GREEN);
+//            set1.setIncreasingPaintStyle(Paint.Style.FILL);
+//            set1.setNeutralColor(Color.LTGRAY);
+//            set1.setDrawValues(false);
+//
+//            Description description = new Description();
+////            description.setText(arrayIndexName[i]);
+//
+//            CandleData data = new CandleData(set1);
+//            this.fx_chart.setDescription(description);
+//            this.fx_chart.setData(data);
+//            this.fx_chart.notifyDataSetChanged();
+//            this.fx_chart.invalidate();
+//        }
+//    }
+    public CandleStickChart loadChart() {
+        //inflater
 
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
+
+        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
+
+        chart.setHighlightPerDragEnabled(true);
+        chart.setDrawBorders(true);
+        chart.setBorderColor(Color.LTGRAY);
+
+        YAxis yAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        yAxis.setDrawGridLines(true);
+        rightAxis.setDrawGridLines(true);
+        chart.requestDisallowInterceptTouchEvent(true);
+
+        XAxis xAxis = chart.getXAxis();
+
+        xAxis.setDrawGridLines(true);// disable x axis grid lines
+        xAxis.setDrawLabels(true);
+        rightAxis.setTextColor(Color.WHITE);
+        yAxis.setDrawLabels(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setAvoidFirstLastClipping(true);
+
+        Legend l = chart.getLegend();
+        l.setEnabled(true);
+
+        ArrayList<CandleEntry> candleValues = new ArrayList<>();
+
+        ArrayList<String> dateIndex = new ArrayList<>();
+        try {
+            for (int j = 0; j < 30; j++) {
+                //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
+//                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
+//                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
+//                        candleValues.add(new CandleEntry(
+//                                (float)j * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
+//                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
+//                    }
+                dateIndex.add(data.get(j).getDailyDate());
+                candleValues.add(new CandleEntry(
+                        j* 1f,
+                        (float)data.get(j).getDailyHigh() * 1f,
+                        (float)data.get(j).getDailyLow() * 1f,
+                        (float)data.get(j).getDailyOpen() * 1f,
+                        (float)data.get(j).getDailyClose() * 1f));
+
+                Log.d("TAG", "loadChart: " + data.get(j).getDailyDate());
+            }
+        }catch (Exception ex){ex.printStackTrace();}
+
+        IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
+        xAxis.setValueFormatter(indexAxisValueFormatter);
+        xAxis.setLabelCount(4);
+
+        //System.out.println(candleValues.toString());
+        CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
+        set1.setColor(Color.rgb(80, 80, 80));
+        set1.setShadowColor(Color.GRAY);
+        set1.setShadowWidth(0.8f);
+        set1.setDecreasingColor(Color.RED);
+        set1.setDecreasingPaintStyle(Paint.Style.FILL);
+        set1.setIncreasingColor(Color.GREEN);
+        set1.setIncreasingPaintStyle(Paint.Style.FILL);
+        set1.setNeutralColor(Color.LTGRAY);
+        set1.setDrawValues(false);
+
+        Description description = new Description();
+//            description.setText(arrayIndexName[i]);
+
+        CandleData data = new CandleData(set1);
+        chart.setDescription(description);
+        chart.setData(data);
+        chart.notifyDataSetChanged();
+        chart.invalidate();
+
+//        fragment_news.inflate()
+        return chart;
+    }
 }
