@@ -104,98 +104,6 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
 
 
-        //inflater
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
-//
-//        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
-
-//        LoadFXChart test_load = new LoadFXChart(dailyFXRates, chart);
-        data = dailyFXRates;
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View inflate = inflater.inflate(R.layout.fx_chart, null);
-
-//        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
-        CandleStickChart chart = (CandleStickChart) inflate.findViewById(R.id.fx_chart);
-
-        chart.setHighlightPerDragEnabled(true);
-        chart.setDrawBorders(true);
-        chart.setBorderColor(Color.LTGRAY);
-
-        YAxis yAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
-        yAxis.setDrawGridLines(true);
-        rightAxis.setDrawGridLines(true);
-        chart.requestDisallowInterceptTouchEvent(true);
-
-        XAxis xAxis = chart.getXAxis();
-
-        xAxis.setDrawGridLines(true);// disable x axis grid lines
-        xAxis.setDrawLabels(true);
-        rightAxis.setTextColor(Color.WHITE);
-        yAxis.setDrawLabels(true);
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setAvoidFirstLastClipping(true);
-
-        Legend l = chart.getLegend();
-        l.setEnabled(true);
-
-        ArrayList<CandleEntry> candleValues = new ArrayList<>();
-
-        ArrayList<String> dateIndex = new ArrayList<>();
-        try {
-            for (int j = 0; j < 30; j++) {
-                //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
-//                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
-//                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
-//                        candleValues.add(new CandleEntry(
-//                                (float)j * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
-//                    }
-                dateIndex.add(data.get(j).getDailyDate());
-                candleValues.add(new CandleEntry(
-                        j* 1f,
-                        (float)data.get(j).getDailyHigh() * 1f,
-                        (float)data.get(j).getDailyLow() * 1f,
-                        (float)data.get(j).getDailyOpen() * 1f,
-                        (float)data.get(j).getDailyClose() * 1f));
-
-                Log.d("TAG", "loadChart: " + data.get(j).getDailyDate());
-            }
-        }catch (Exception ex){ex.printStackTrace();}
-
-        IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
-        xAxis.setValueFormatter(indexAxisValueFormatter);
-        xAxis.setLabelCount(4);
-
-        //System.out.println(candleValues.toString());
-        CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
-        set1.setColor(Color.rgb(80, 80, 80));
-        set1.setShadowColor(Color.GRAY);
-        set1.setShadowWidth(0.8f);
-        set1.setDecreasingColor(Color.RED);
-        set1.setDecreasingPaintStyle(Paint.Style.FILL);
-        set1.setIncreasingColor(Color.GREEN);
-        set1.setIncreasingPaintStyle(Paint.Style.FILL);
-        set1.setNeutralColor(Color.LTGRAY);
-        set1.setDrawValues(false);
-
-        Description description = new Description();
-//            description.setText(arrayIndexName[i]);
-
-        CandleData data = new CandleData(set1);
-        chart.setDescription(description);
-        chart.setData(data);
-        chart.notifyDataSetChanged();
-        chart.invalidate();
-
-//        fragment_news.inflate()
-
 
     }
 
@@ -502,90 +410,90 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 //            this.fx_chart.invalidate();
 //        }
 //    }
-    public CandleStickChart loadChart() {
-        //inflater
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
-
-        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
-
-        chart.setHighlightPerDragEnabled(true);
-        chart.setDrawBorders(true);
-        chart.setBorderColor(Color.LTGRAY);
-
-        YAxis yAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
-        yAxis.setDrawGridLines(true);
-        rightAxis.setDrawGridLines(true);
-        chart.requestDisallowInterceptTouchEvent(true);
-
-        XAxis xAxis = chart.getXAxis();
-
-        xAxis.setDrawGridLines(true);// disable x axis grid lines
-        xAxis.setDrawLabels(true);
-        rightAxis.setTextColor(Color.WHITE);
-        yAxis.setDrawLabels(true);
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setAvoidFirstLastClipping(true);
-
-        Legend l = chart.getLegend();
-        l.setEnabled(true);
-
-        ArrayList<CandleEntry> candleValues = new ArrayList<>();
-
-        ArrayList<String> dateIndex = new ArrayList<>();
-        try {
-            for (int j = 0; j < 30; j++) {
-                //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
-//                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
-//                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
-//                        candleValues.add(new CandleEntry(
-//                                (float)j * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
-//                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
-//                    }
-                dateIndex.add(data.get(j).getDailyDate());
-                candleValues.add(new CandleEntry(
-                        j* 1f,
-                        (float)data.get(j).getDailyHigh() * 1f,
-                        (float)data.get(j).getDailyLow() * 1f,
-                        (float)data.get(j).getDailyOpen() * 1f,
-                        (float)data.get(j).getDailyClose() * 1f));
-
-                Log.d("TAG", "loadChart: " + data.get(j).getDailyDate());
-            }
-        }catch (Exception ex){ex.printStackTrace();}
-
-        IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
-        xAxis.setValueFormatter(indexAxisValueFormatter);
-        xAxis.setLabelCount(4);
-
-        //System.out.println(candleValues.toString());
-        CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
-        set1.setColor(Color.rgb(80, 80, 80));
-        set1.setShadowColor(Color.GRAY);
-        set1.setShadowWidth(0.8f);
-        set1.setDecreasingColor(Color.RED);
-        set1.setDecreasingPaintStyle(Paint.Style.FILL);
-        set1.setIncreasingColor(Color.GREEN);
-        set1.setIncreasingPaintStyle(Paint.Style.FILL);
-        set1.setNeutralColor(Color.LTGRAY);
-        set1.setDrawValues(false);
-
-        Description description = new Description();
-//            description.setText(arrayIndexName[i]);
-
-        CandleData data = new CandleData(set1);
-        chart.setDescription(description);
-        chart.setData(data);
-        chart.notifyDataSetChanged();
-        chart.invalidate();
-
-//        fragment_news.inflate()
-        return chart;
-    }
+//    public CandleStickChart loadChart() {
+//        //inflater
+//
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View fragment_news = inflater.inflate(R.layout.fragment_news, null);
+//
+//        CandleStickChart chart = (CandleStickChart) fragment_news.findViewById(R.id.fx_chart);
+//
+//        chart.setHighlightPerDragEnabled(true);
+//        chart.setDrawBorders(true);
+//        chart.setBorderColor(Color.LTGRAY);
+//
+//        YAxis yAxis = chart.getAxisLeft();
+//        YAxis rightAxis = chart.getAxisRight();
+//        yAxis.setDrawGridLines(true);
+//        rightAxis.setDrawGridLines(true);
+//        chart.requestDisallowInterceptTouchEvent(true);
+//
+//        XAxis xAxis = chart.getXAxis();
+//
+//        xAxis.setDrawGridLines(true);// disable x axis grid lines
+//        xAxis.setDrawLabels(true);
+//        rightAxis.setTextColor(Color.WHITE);
+//        yAxis.setDrawLabels(true);
+//        xAxis.setGranularity(1f);
+//        xAxis.setGranularityEnabled(true);
+//        xAxis.setAvoidFirstLastClipping(true);
+//
+//        Legend l = chart.getLegend();
+//        l.setEnabled(true);
+//
+//        ArrayList<CandleEntry> candleValues = new ArrayList<>();
+//
+//        ArrayList<String> dateIndex = new ArrayList<>();
+//        try {
+//            for (int j = 0; j < 30; j++) {
+//                //System.out.println((float)index.getCompanyStockPrices().get(j).getDailyHigh());
+////                    if(index.getCompanyStockPrices().get(j).getDailyClose() != 0){
+////                        dateIndex[j] = String.valueOf(index.getCompanyStockPrices().get(j).getDailyDate());
+////                        candleValues.add(new CandleEntry(
+////                                (float)j * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyHigh() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyLow() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyOpen() * 1f,
+////                                (float)index.getCompanyStockPrices().get(j).getDailyClose() * 1f));
+////                    }
+//                dateIndex.add(data.get(j).getDailyDate());
+//                candleValues.add(new CandleEntry(
+//                        j* 1f,
+//                        (float)data.get(j).getDailyHigh() * 1f,
+//                        (float)data.get(j).getDailyLow() * 1f,
+//                        (float)data.get(j).getDailyOpen() * 1f,
+//                        (float)data.get(j).getDailyClose() * 1f));
+//
+//                Log.d("TAG", "loadChart: " + data.get(j).getDailyDate());
+//            }
+//        }catch (Exception ex){ex.printStackTrace();}
+//
+//        IndexAxisValueFormatter indexAxisValueFormatter = new IndexAxisValueFormatter(dateIndex);
+//        xAxis.setValueFormatter(indexAxisValueFormatter);
+//        xAxis.setLabelCount(4);
+//
+//        //System.out.println(candleValues.toString());
+//        CandleDataSet set1 = new CandleDataSet(candleValues, "Stock Prices");
+//        set1.setColor(Color.rgb(80, 80, 80));
+//        set1.setShadowColor(Color.GRAY);
+//        set1.setShadowWidth(0.8f);
+//        set1.setDecreasingColor(Color.RED);
+//        set1.setDecreasingPaintStyle(Paint.Style.FILL);
+//        set1.setIncreasingColor(Color.GREEN);
+//        set1.setIncreasingPaintStyle(Paint.Style.FILL);
+//        set1.setNeutralColor(Color.LTGRAY);
+//        set1.setDrawValues(false);
+//
+//        Description description = new Description();
+////            description.setText(arrayIndexName[i]);
+//
+//        CandleData data = new CandleData(set1);
+//        chart.setDescription(description);
+//        chart.setData(data);
+//        chart.notifyDataSetChanged();
+//        chart.invalidate();
+//
+////        fragment_news.inflate()
+//        return chart;
+//    }
 }
