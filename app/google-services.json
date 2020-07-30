@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1087649586092",
+    "firebase_url": "https://finance103-feb8f.firebaseio.com",
+    "project_id": "finance103-feb8f",
+    "storage_bucket": "finance103-feb8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087649586092:android:31b3ed5ebb40e75b9df809",
+        "android_client_info": {
+          "package_name": "hcmus.selab.finace101"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087649586092-h9ni2nduh6r6f020aom47abdkjlbgsrk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfLihTNDG3NUGvLqRtaJIABe69vXKbKbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087649586092-h9ni2nduh6r6f020aom47abdkjlbgsrk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

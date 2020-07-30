@@ -8,4 +8,14 @@
         <item>Expand</item>
         <item>Income</item>
     </string-array>
+
+    <string-array name="toCur">
+        <item name="">USD</item>
+        <item name="">EUR</item>
+        <item name="">JPY</item>
+        <item name="">CAD</item>
+        <item name="">AUD</item>
+        <item name="">GBP</item>
+        <item name="">CNY</item>
+    </string-array>
 </resources>

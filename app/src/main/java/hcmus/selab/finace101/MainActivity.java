@@ -41,6 +41,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedList;
 
 import hcmus.selab.finace101.support.fxRate.DailyFXRate;
@@ -70,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
     ForexRate forex = new ForexRate();
     ArrayList<DailyFXRate> dailyFXRates = new ArrayList<DailyFXRate>();
     ArrayList<DailyFXRate> data = new ArrayList<DailyFXRate>();
+  
+    Spinner currency_spinner;
+    String curState;
+    @Override
+    public void getRecyclerView(RecyclerView recyclerView) {
+        this.recordRecyclerView = recyclerView;
+        this.recordRecyclerView.setAdapter(new recordRecyclerView(this,mRecordAmount_list, mRecordTitle_list,mRecordCat_list));
+        this.recordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        DividerItemDecoration decor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        this.recordRecyclerView.addItemDecoration(decor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
         rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
 
-        forex.execute();
+      forex.execute();
         try {
             dailyFXRates = forex.get();
         } catch (ExecutionException e) {
@@ -102,13 +116,10 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
             e.printStackTrace();
         }
 
-
-
-
     }
 
     //test rss
-    public void onclick_rss(View view) {
+    public void onclick_rss(@NotNull View view) {
         switch (view.getId()) {
             case R.id.tuoitre_feed:
                 startActivity(new Intent(MainActivity.this, RSSFeedActivity.class).putExtra("rssLink", rssLinks.get(0)));
@@ -495,5 +506,45 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 //
 ////        fragment_news.inflate()
 //        return chart;
+
+//    public void currency_converter_onclick(View view) {
+////        Toast.makeText(this,"EYYYY",Toast.LENGTH_SHORT).show();
+//
+//        LayoutInflater inflater2 = LayoutInflater.from(this);
+//        final View curr_money_view = inflater2.inflate(R.layout.fragment_news, null);
+//
+//        currency_spinner = (Spinner) curr_money_view.findViewById(R.id.currency_spinner);
+//
+//        Log.d("TAG", "currency_converter_onclick: "+ currency_spinner.getSelectedItem());
+//
+//        currency_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                try {
+//                    Log.d("TAG", "onItemSelected: " + position);
+//                    Log.d("TAG", "onItemSelected: " + parentView.getItemAtPosition(position).toString());
+//                    curState = parentView.getItemAtPosition(position).toString();
+//
+//                }catch (Exception e){
+//                    Toast.makeText(selectedItemView.getContext(), "Choose currency exchanged FAILED", Toast.LENGTH_LONG).show();
+//                    Log.wtf("ChooseCurState_Err:", e.getMessage());
+//                    return;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//                // your code here
+//            }
+//
+//        });
+//
+//        Log.d("TAG", "currency_converter_onclick: " + curState);
+//////        String getStrCur = cur1.getText().toString();
+//////        if (!getStrCur.equalsIgnoreCase("")){
+//////            CurrencyConvertedAsyn test = (CurrencyConvertedAsyn) new CurrencyConvertedAsyn("VND", cur2, curState).execute();
+//////        }else{
+//////            Toast.makeText(this, "Converted Failed", Toast.LENGTH_SHORT).show();
+//////        }
 //    }
 }
