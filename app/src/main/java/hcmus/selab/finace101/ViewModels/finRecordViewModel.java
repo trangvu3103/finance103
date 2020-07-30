@@ -1,6 +1,7 @@
 package hcmus.selab.finace101.ViewModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,6 +21,7 @@ public class finRecordViewModel extends AndroidViewModel {
         super(application);
         mfinRecoRepository = new finRecoRepository(application);
         allRecord = mfinRecoRepository.getAllRecords();
+        Log.d("TAG", "finRecordViewModel: " + hashCode());
 
 //        getCur();
     }
@@ -31,6 +33,10 @@ public class finRecordViewModel extends AndroidViewModel {
 
     public void insert(finRecord record){
         mfinRecoRepository.insert(record);
+    }
+
+    public Double getSumVal(){
+        return this.mfinRecoRepository.getSumVal();
     }
 
 

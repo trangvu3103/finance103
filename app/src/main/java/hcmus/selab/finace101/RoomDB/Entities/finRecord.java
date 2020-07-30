@@ -28,6 +28,9 @@ public class finRecord{
     @ColumnInfo(name = "fin_record_value")
     private Double fin_record_value;
 
+    @ColumnInfo(name = "fin_record_value_U")
+    private Double fin_record_value_U;
+
     @ColumnInfo(name = "fin_record_status")
     private String fin_record_status;
 
@@ -36,10 +39,12 @@ public class finRecord{
 
     public finRecord(@NonNull String fin_record_name,
                      @NonNull Double fin_record_value,
-                     @NonNull String fin_record_status) {
+                     @NonNull String fin_record_status,
+                     @Nullable Double fin_record_value_U) {
         this.fin_record_id = String.valueOf(count.incrementAndGet());
         this.fin_record_name = fin_record_name;
         this.fin_record_value = fin_record_value;
+        this.fin_record_value_U = fin_record_value_U;
         this.fin_record_status = fin_record_status;
 
         this.fin_record_dateCreated = new Date(System.currentTimeMillis());
@@ -58,10 +63,13 @@ public class finRecord{
     public  Double getFin_record_value() { return this.fin_record_value;}
 
     @NonNull
+    public  Double getFin_record_value_U() { return this.fin_record_value_U;}
+
+    @NonNull
     public String getFin_record_status(){ return this.fin_record_status;}
 
     @NonNull
-    public  Date getFin_record_dateCreated(){return this.fin_record_dateCreated;}
+    public Date getFin_record_dateCreated(){return this.fin_record_dateCreated;}
 
     public  void setFin_record_id(@NonNull String fin_record_id){
         this.fin_record_id = fin_record_id;
