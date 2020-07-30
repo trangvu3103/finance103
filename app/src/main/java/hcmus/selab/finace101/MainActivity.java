@@ -3,68 +3,116 @@ package hcmus.selab.finace101;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-
-import hcmus.selab.finace101.ui.main.PlaceholderFragment;
-
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
+import hcmus.selab.finace101.RoomDB.Entities.finRecord;
+import hcmus.selab.finace101.ViewModels.finRecordViewModel;
 import hcmus.selab.finace101.support.RSSFeedActivity;
-
+import hcmus.selab.finace101.ui.main.PlaceholderFragment;
 import hcmus.selab.finace101.ui.main.SectionsPagerAdapter;
 import hcmus.selab.finace101.ui.main.recordRecyclerView;
 
 import static java.lang.Math.abs;
 
 public class MainActivity extends AppCompatActivity implements PlaceholderFragment.addRecordListener{
-    int curr_money_saved = 0;
+    Double curr_money_saved = 0.;
     ArrayList<String> rssLinks = new ArrayList<>();
 
     RecyclerView recordRecyclerView;
     LinkedList<String> mRecordAmount_list = new LinkedList<String>();
     LinkedList<String> mRecordTitle_list = new LinkedList<String>();
     LinkedList<String> mRecordCat_list = new LinkedList<String>();
+    List<finRecord> test;
 
-    Spinner currency_spinner;
-    String curState;
+    private finRecordViewModel mFinRecordViewModel;
+
+    TextView curVal;
+
     @Override
-    public void getRecyclerView(RecyclerView recyclerView) {
+    public void getRecyclerView(RecyclerView recyclerView, TextView curVal) {
         this.recordRecyclerView = recyclerView;
-        this.recordRecyclerView.setAdapter(new recordRecyclerView(this,mRecordAmount_list, mRecordTitle_list,mRecordCat_list));
+        this.curVal = curVal;
+//        this.recordRecyclerView.setAdapter(new recordRecyclerView(this,mRecordAmount_list, mRecordTitle_list,mRecordCat_list));
+//        this.recordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        DividerItemDecoration decor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        this.recordRecyclerView.addItemDecoration(decor);
+
+        final hcmus.selab.finace101.ui.main.recordRecyclerView adapter = new recordRecyclerView(this);
+        recyclerView.setAdapter(adapter);
         this.recordRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         DividerItemDecoration decor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         this.recordRecyclerView.addItemDecoration(decor);
+
+        mFinRecordViewModel = new ViewModelProvider(this).get(finRecordViewModel.class);
+
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        mFinRecordViewModel.getAllRecords().observe(this, new Observer<List<finRecord>>() {
+            @Override
+            public void onChanged(@Nullable final List<finRecord> records) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setRecords(records);
+            }
+        });
+
+//        Log.d("TAG", "getRecyclerView: " + test.getClass());
+
     }
+
+    public Double getSumCur(List<finRecord> records){
+        Double res = 0.;
+        for(finRecord record : records){
+            Log.d("TAG", "getSumCur: " + record.getFin_record_name());
+            Log.d("TAG", "getSumCur: " + String.valueOf(res));
+            Log.d("TAG", "getSumCur: " + record.getFin_record_status());
+            if (record.getFin_record_name().equalsIgnoreCase("Unknown") && record.getFin_record_status().equalsIgnoreCase("Expand_U")){
+                break;
+            }else {
+                if (record.getFin_record_status().equalsIgnoreCase("Expand_U") || record.getFin_record_status().equalsIgnoreCase("Expand")){
+                    res -= record.getFin_record_value();
+                }else{
+                    res += record.getFin_record_value();
+
+                }
+            }
+            Log.d("TAG", "getSumCur: " + String.valueOf(res));
+        }
+
+        return res;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +136,20 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         rssLinks.add("https://www.theguardian.com/profile/charliebrooker/rss");
         rssLinks.add("https://www.cnbc.com/id/21324812/device/rss/rss.html");
 
+
+//        // Get a new or existing ViewModel from the ViewModelProvider.
+//        mFinRecordViewModel = new ViewModelProvider(this).get(finRecordViewModel.class);
+//
+//        // Add an observer on the LiveData returned by getAlphabetizedWords.
+//        // The onChanged() method fires when the observed data changes and the activity is
+//        // in the foreground.
+//        mFinRecordViewModel.getMallRecord().observe(this, new Observer<List<finRecord>>() {
+//            @Override
+//            public void onChanged(@Nullable final List<finRecord> words) {
+//                // Update the cached copy of the words in the adapter.
+//                adapter.setWords(words);
+//            }
+//        });
 
     }
 
@@ -166,15 +228,15 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                         String title ="";
                         String cat = null;
 
-                        int Result;
-                        int i = 0;
+                        Double Result;
+                        Double i = 0.;
                         title = record_title.getText().toString();
                         if (title.isEmpty()){
                             Toast.makeText(curr_money_view.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
                             return;
                         }
                         try {
-                            i = Integer.parseInt(change);
+                            i = Double.parseDouble(change);
                             cat = record_cat[0].toString();
                         }
                         catch (Exception e){
@@ -184,20 +246,20 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                             return;
                         }
 
-                        if(cat.equalsIgnoreCase("Expand")){
-                            curr_money_saved -= i;
-                            TextView current_money = findViewById(R.id.current_money);
-                            current_money.setText(curr_money_saved + " vnd");
-                        }else if(cat.equalsIgnoreCase("Income")){
-                            curr_money_saved += i;
-                            TextView current_money = findViewById(R.id.current_money);
-                            current_money.setText(curr_money_saved + " vnd");
-                        }else{
-                            Toast.makeText(curr_money_view.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
-                            return;
-                        }
+//                        if(cat.equalsIgnoreCase("Expand")){
+//                            curr_money_saved -= i;
+//                            TextView current_money = findViewById(R.id.current_money);
+//                            current_money.setText(curr_money_saved + " vnd");
+//                        }else if(cat.equalsIgnoreCase("Income")){
+//                            curr_money_saved += i;
+//                            TextView current_money = findViewById(R.id.current_money);
+//                            current_money.setText(curr_money_saved + " vnd");
+//                        }else{
+//                            Toast.makeText(curr_money_view.getContext(), "Add Record Error", Toast.LENGTH_LONG).show();
+//                            return;
+//                        }
 
-                        addRecord(String.valueOf(i) + " vnd",title,cat);
+                        addRecord(i ,title,cat);
 
 
                     }
@@ -214,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         final EditText new_curr_money = (EditText) edt_current_money.findViewById(R.id.edt_current_money);
 
         // get the current money
-        final int curr_money = curr_money_saved;
+        final Double curr_money = curr_money_saved;
 
         new AlertDialog.Builder(this)
                 .setView(edt_current_money)
@@ -223,9 +285,9 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                     public void onClick(DialogInterface dialog, int which) {
                         // check if user inputted new value. If not set text the new_curr_money to 0
                         String change = new_curr_money.getText().toString();
-                        int i = 0;
+                        Double i = 0.;
                         try {
-                            i = Integer.parseInt(change);
+                            i = Double.parseDouble(change);
                         }
                         catch (NumberFormatException e){
                             dialog.dismiss();
@@ -234,24 +296,24 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
 
                         // create a new edited_money variable with int type
                         String money = new_curr_money.getText().toString();
-                        int record = 0;
-                        int edited_money = Integer.parseInt(money);
+                        Double record = 0.;
+                        Double edited_money = Double.parseDouble(money);
 
                         // check if the new inputted money is 0
                         if (edited_money != 0) {
                             // set the view to the new value of the money
-                            TextView current_money = findViewById(R.id.current_money);
-                            current_money.setText(money + " vnd");
-                            curr_money_saved = edited_money;
+//                            TextView current_money = findViewById(R.id.current_money);
+////                            current_money.setText(money + " vnd");
+//                            curr_money_saved = edited_money;
 
                             // if the new money > the current money
                             if (edited_money > curr_money)
                             {
                                 // the record = new money - current money
-                                record = edited_money - abs(curr_money);
+                                record =  Double.parseDouble(String.valueOf(edited_money - abs(curr_money)));
 
                                 // add the record value to list of record with tittle = "unknow"
-                                addRecord(String.valueOf(record) + " vnd","Unknown","Income");
+                                addRecord(record,"Unknown","Income_U");
 
 
                             }
@@ -260,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
                                 record = abs(curr_money) - edited_money;
 
                                 // add the record value to list of record with tittle = "unknow"
-                                addRecord(String.valueOf(record) + " vnd","Unknown","Expand");
+                                addRecord(record,"Unknown","Expand_U");
                             }
                         }
 
@@ -278,13 +340,18 @@ public class MainActivity extends AppCompatActivity implements PlaceholderFragme
         }
     }
 
-    public void addRecord(String amount, String Tit, String cat){
+    public void addRecord(Double amount, String Tit, String cat){
         //Add item to list
-        this.mRecordAmount_list.addFirst(amount);
-        this.mRecordTitle_list.addFirst(Tit);
-        this.mRecordCat_list.addFirst(cat);
-        //Notify the recyclerView to change data
+//        this.mRecordAmount_list.addFirst(amount);
+//        this.mRecordTitle_list.addFirst(Tit);
+//        this.mRecordCat_list.addFirst(cat);
+//        //Notify the recyclerView to change data
+//        this.recordRecyclerView.getAdapter().notifyItemInserted(0);
+//
+        finRecord mfinRecord = new finRecord(Tit, amount, cat);
+        mFinRecordViewModel.insert(mfinRecord);
         this.recordRecyclerView.getAdapter().notifyItemInserted(0);
+
 
     }
 

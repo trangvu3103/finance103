@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.json.JSONException;
@@ -46,9 +45,6 @@ public class PlaceholderFragment2 extends Fragment {
         ArrayAdapter<String> mCurSpinnerAddapter = new ArrayAdapter<String>(this.getContext(),
                 R.layout.currency_spinner_item,
                 this.getResources().getStringArray(R.array.toCur));
-
-        Log.d("TAG", "onCreateView: "+this.getResources().getStringArray(R.array.toCur).length);
-        Log.d("TAG", "onCreateView: "+mCurSpinnerAddapter.getCount());
 
         mCurSpinnerAddapter.setDropDownViewResource(R.layout.spinner_row);
         currency_spinner.setAdapter(mCurSpinnerAddapter);

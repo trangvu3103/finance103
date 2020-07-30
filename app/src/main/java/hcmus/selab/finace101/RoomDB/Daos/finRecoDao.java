@@ -8,19 +8,20 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import hcmus.selab.finace101.RoomDB.Entities.User;
+import hcmus.selab.finace101.RoomDB.Entities.finRecord;
 
 @Dao
-public class UserDao {
+public interface finRecoDao {
 
     // allowing the insert of the same word multiple times by passing a
     // conflict resolution strategy
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public static void insert(User user);
+    void insert(finRecord record);
 
-    @Query("DELETE FROM Users")
+    @Query("DELETE FROM fin_record")
     void deleteAll();
 
-    @Query("SELECT * from Users ORDER BY user_id ASC")
-    public LiveData<List<User>> getAlphabetizedWords();
+    @Query("SELECT * from fin_record ORDER BY fin_record_dateCreated DESC")
+    LiveData<List<finRecord>> getOrederedRecords();
+
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,14 +20,15 @@ public class PlaceholderFragment extends Fragment{
     addRecordListener callback;
 
     static RecyclerView mRecyclerView;
-    private recordRecyclerView mAdapter;
+
+    TextView curVal;
 
     public void setFragListener(addRecordListener callback) {
         this.callback = callback;
     }
 
     public interface addRecordListener {
-        public void getRecyclerView(RecyclerView recyclerView);
+        public void getRecyclerView(RecyclerView recyclerView, TextView curVal);
     }
 
 
@@ -39,8 +41,11 @@ public class PlaceholderFragment extends Fragment{
 
         // Get a handle to the RecyclerView.
         mRecyclerView = view.findViewById(R.id.recycler_record);
+        curVal = view.findViewById(R.id.current_money);
 
-        callback.getRecyclerView(mRecyclerView);
+        callback.getRecyclerView(mRecyclerView, curVal);
+
+//        curVal.setText(String.valueOf(mFinRecordViewModel.getCurVal())+" VND");
 
         // Inflate the layout for this fragment
         return view;
