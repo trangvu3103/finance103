@@ -39,5 +39,7 @@ public class finRecordViewModel extends AndroidViewModel {
         return this.mfinRecoRepository.getSumVal();
     }
 
-
+    public boolean isEmpty(){
+        return this.allRecord.getValue().isEmpty();
+    }
 }
